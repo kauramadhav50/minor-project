@@ -6,10 +6,12 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <div>
+    <div className="fixed h-screen w-full">
       <Home />
     </div>
   )
 }
 
 export default App
+
+
