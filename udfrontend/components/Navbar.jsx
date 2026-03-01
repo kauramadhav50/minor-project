@@ -1,36 +1,66 @@
 import { IoChatbubbleEllipses } from "react-icons/io5";
-import { useState } from "react";
+import { IoMenu } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
-const Navbar = () => {
-  function handleclick() {
-    alert("clicked");
-  }
+const Navbar = ({ setOpen }) => {
+
   return (
-    <div className="flex items-center w-full justify-center gap-2 bg-blue-200 md:hidden">
 
-      {/* Logo */}
-      <div>
-        <img src="/logo.png" alt="logo" className="h-14" />
+    <div className="fixed top-0 left-0 w-full 
+    flex items-center gap-2 
+    bg-white border-b border-gray-300 
+    px-3 py-2 
+    md:hidden z-50">
+
+      {/* Menu Button */}
+
+      <div
+        className="text-2xl cursor-pointer text-gray-700"
+        onClick={() => setOpen && setOpen(prev => !prev)}
+      >
+        <IoMenu />
       </div>
 
-      {/* Search Bar */}
-      <div>
+
+      {/* Logo */}
+
+      <div className="flex-shrink-0">
+
+        <img
+          src="/logo.png"
+          alt="logo"
+          className="h-10"
+        />
+
+      </div>
+
+
+      {/* Search */}
+
+      <div className="flex-1">
+
         <input
           type="search"
           placeholder="Search"
-          className="rounded-xl w-65 px-4 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent"
+          className="w-full px-3 py-1.5 
+          rounded-md bg-gray-100 
+          outline-none"
         />
+
       </div>
 
-      {/* Chat Icon */}
-      <div className="text-2xl cursor-pointer" onClick={handleclick}>
-        
 
-        <IoChatbubbleEllipses />
-        
-      </div>
+      {/* Chat */}
+      <Link to="/message">
+        <div className="text-2xl text-gray-700">
 
+          <IoChatbubbleEllipses />
+
+        </div>
+
+</Link >
     </div>
+
   );
 };
 

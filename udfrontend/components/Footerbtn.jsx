@@ -1,13 +1,13 @@
+import {Link} from 'react-router-dom'
 
-
-const Footerbtn = ({ Name,icon }) => {
+const Footerbtn = ({ Name,icon, path }) => {
     console.log(Name);
     return (
         <div>
-            <a href="#" className="flex flex-col items-center gap-1">
+            <Link to={path} className="flex flex-col items-center gap-1">
                 {icon}
                 <p className="text-[12px] font-bold">{Name}</p>
-            </a>
+            </Link>
         </div>
     )
 }
