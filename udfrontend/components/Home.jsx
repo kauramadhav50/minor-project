@@ -6,6 +6,7 @@ import { FaRegCommentDots } from "react-icons/fa";
 const Home = () => {
   return (
     <div>
+      {/* first post */}
       <div className="bg-white border border-gray-300 
     w-full sm:w-[95%] md:w-[75%] lg:w-[600px] 
     mx-auto my-1 rounded-sm shadow-sm">
@@ -123,8 +124,7 @@ const Home = () => {
 
       </div>
 
-
-
+      {/* second post */}
       <div className="bg-white border border-gray-300 
     w-full sm:w-[95%] md:w-[75%] lg:w-[600px] 
     mx-auto my-1 rounded-sm shadow-sm">
@@ -176,7 +176,7 @@ const Home = () => {
         <div className="w-full">
 
           <img
-            src="logo.png"
+            src="https://media.licdn.com/dms/image/v2/D5622AQEopYC2rU64Pw/feedshare-shrink_800/B56ZwytRUfIsAg-/0/1770377254969?e=1773878400&v=beta&t=YBGuSAPZaHzwoEz-9_ah6PrcNkuuGJYet1WGAijtOgU"
             alt="post"
             className="w-full max-h-[450px] object-cover"
           />
@@ -237,8 +237,7 @@ const Home = () => {
 
       </div>
 
-
-
+      {/* third post */}
       <div className="bg-white border border-gray-300 
     w-full sm:w-[95%] md:w-[75%] lg:w-[600px] 
     mx-auto my-1 rounded-sm shadow-sm">
@@ -290,7 +289,7 @@ const Home = () => {
         <div className="w-full">
 
           <img
-            src="logo.png"
+            src="https://media.licdn.com/dms/image/v2/D5622AQGF-tDtW90tJQ/feedshare-shrink_1280/B56ZumjQwBIQAs-/0/1768025821631?e=1773878400&v=beta&t=jw0A8DZjF7GaZkWiWJeqo-U6QqUmLMeNsayx-tQwGYI"
             alt="post"
             className="w-full max-h-[450px] object-cover"
           />
@@ -352,6 +351,8 @@ const Home = () => {
 
       </div>
 
+
+      {/* Forth post */}
       <div className="bg-white border border-gray-300 
     w-full sm:w-[95%] md:w-[75%] lg:w-[600px] 
     mx-auto my-1 rounded-sm shadow-sm">
@@ -403,7 +404,7 @@ const Home = () => {
         <div className="w-full">
 
           <img
-            src="logo.png"
+            src="https://media.licdn.com/dms/image/v2/D4E22AQFXHwOZwlv3iw/feedshare-shrink_2048_1536/B4EZg8TDiLGoBU-/0/1753358288205?e=1773878400&v=beta&t=59P-rVHYuFy5TBdyGh9iURa5nIUNwxRvPFoLVy1Cl3U"
             alt="post"
             className="w-full max-h-[450px] object-cover"
           />
@@ -471,11 +472,6 @@ const Home = () => {
 
 
     </div>
-
-
-
-
-
 
 
   );
