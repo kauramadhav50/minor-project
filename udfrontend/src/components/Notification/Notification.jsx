@@ -34,7 +34,7 @@ const Notification = () => {
 
     return (
 
-        <div className="pt-16 pb-20 md:pb-4">
+        <div className="pb-20 md:pb-4">
 
             <div className="max-w-[700px] mx-auto px-2">
 

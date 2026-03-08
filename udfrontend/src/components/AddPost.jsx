@@ -18,7 +18,7 @@ const AddPost = ({ addPost }) => {
 
     return (
 
-        <div className="pt-20">
+        <div className="">
 
             <div className="max-w-[600px] mx-auto">
 

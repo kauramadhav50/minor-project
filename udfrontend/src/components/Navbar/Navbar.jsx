@@ -10,21 +10,13 @@ const Navbar = ({ setOpen }) => {
     flex items-center gap-2 
     bg-white border-b border-gray-300 
     px-3 py-2 
-    md:hidden z-50">
-
-      {/* Menu Button */}
-
-      <div
-        className="text-2xl cursor-pointer text-gray-700"
-        onClick={() => setOpen && setOpen(prev => !prev)}
-      >
-        <IoMenu />
-      </div>
+    md:hidden z-50">      
 
 
       {/* Logo */}
 
-      <div className="flex-shrink-0">
+      <div className="flex-shrink-0 cursor-pointer"
+       onClick={() => setOpen && setOpen(prev => !prev)}>
 
         <img
           src="/logo.png"

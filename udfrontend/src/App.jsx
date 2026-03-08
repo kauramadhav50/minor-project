@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import './App.css'
+// import './App.css'
 
-import Footer from '/components/Footer.jsx'
-import Navbar from '../components/Navbar'
-import DesktopNavbar from '../components/DesktopNavbar.jsx'
-import MobileSidebar from '../components/MobileSidebar.jsx'
+import Footer from './components/Footer/Footer.jsx'
+import Navbar from './components/Navbar/Navbar.jsx'
+import DesktopNavbar from './components/Navbar/DesktopNavbar.jsx'
+import MobileSidebar from './components/Navbar/MobileSidebar.jsx'
 
 import { Outlet } from 'react-router-dom';
 
@@ -15,10 +15,10 @@ function App() {
 
   return (
 
-    <div className="bg-[#f3f2ef] min-h-screen overflow-y-auto no-scrollbar">
+    <div className="bg-[#f3f2ef] overflow-y-scroll hide-scrollbar h-screen">
 
 
-      {/* Navbars */}
+      Navbars
 
       <Navbar setOpen={setOpen} />
 
@@ -32,9 +32,9 @@ function App() {
 
       {/* Pages */}
 
-      <div className="pt-16 pb-16">
+      <div className="pt-10 pb-16">
 
-        <div className="mx-auto flex flex-col gap-3 max-w-[600px]">
+        <div className="">
 
 
 
