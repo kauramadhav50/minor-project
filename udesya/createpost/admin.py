@@ -1,7 +1,13 @@
 from django.contrib import admin
-from .models import CustomUser
+from django.contrib.auth.admin import UserAdmin
+from .models import User, Post
 
-# Register your models here.
+# This makes the new fields visible in the Admin dashboard
+class CustomUserAdmin(UserAdmin):
+    model = User
+    fieldsets = UserAdmin.fieldsets + (
+        (None, {'fields': ('fullname', 'bio', 'profile_pic')}),
+    )
 
-
-admin.site.register(CustomUser)
+admin.site.register(User, CustomUserAdmin)
+admin.site.register(Post)

@@ -1,29 +1,30 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .models import CustomUser
-from .serializers import UserSerializer
-from .serializers import SignupSerializer
-from rest_framework import status
+from rest_framework import generics, permissions
+from .models import Post, User
+from .serializers import PostSerializer, RegisterSerializer, MyTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+# from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
-@api_view(['GET'])
-def user_list(request):
-    users = CustomUser.objects.all()
-    serializer = UserSerializer(users, many=True)
-    return Response(serializer.data)
+
+class CreatePostView(generics.CreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated] # Ensures only logged-in users can post
+
+    def perform_create(self, serializer):
+        # Automatically set the author to the currently logged-in user
+        serializer.save(author=self.request.user)
+    
 
 
-@api_view(['GET', 'POST'])
-def signup(request):
 
-    if request.method == "POST":
-        serializer = SignupSerializer(data=request.data)
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = (permissions.AllowAny,)
+    serializer_class = RegisterSerializer
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"message": "User created"}, status=201)
-
-        return Response(serializer.errors, status=400)
-
-    serializer = SignupSerializer()
-    return Response(serializer.data)
+# Login View (Using our custom serializer)
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer

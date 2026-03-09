@@ -1,28 +1,67 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import Post, User
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUser
-        fields = ['id','username','email','profile_image','bio']
+        model = User
+        fields = ['id', 'username', 'fullname', 'email', 'password', 'bio', 'profile_pic', 'is_staff']
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'is_staff': {'read_only': True} # Prevent users from making themselves staff
+        }
+
+    def create(self, validated_data):
+        # Create user with hashed password
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password'],
+            fullname=validated_data.get('fullname', ''),
+            bio=validated_data.get('bio', '')
+        )
+        return user
 
 
-class SignupSerializer(serializers.ModelSerializer):
+
+
+class PostSerializer(serializers.ModelSerializer):
+    author_name = serializers.ReadOnlyField(source='author.username')
+
+    class Meta:
+        model = Post
+        fields = ['id', 'author', 'author_name', 'title', 'content', 'image', 'created_at']
+
+# 1. SIGNUP SERIALIZER
+class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = CustomUser
-        fields = ['username', 'email', 'password', 'bio', 'profile_image']
+        model = User
+        fields = ['username', 'fullname', 'email', 'password', 'bio', 'profile_pic']
 
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(
+        user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
-            password=validated_data['password']
+            password=validated_data['password'],
+            fullname=validated_data.get('fullname', ''),
+            bio=validated_data.get('bio', ''),
+            profile_pic=validated_data.get('profile_pic', None)
         )
-
-        user.bio = validated_data.get('bio')
-        user.profile_image = validated_data.get('profile_image')
-        user.save()
-
         return user
+
+# 2. LOGIN SERIALIZER (Customized to return profile data with the token)
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        # Add extra data to the response
+        data['username'] = self.user.username
+        data['fullname'] = self.user.fullname
+        data['bio'] = self.user.bio
+        data['profile_pic'] = self.user.profile_pic.url if self.user.profile_pic else None
+        data['is_staff'] = self.user.is_staff
+        return data
+
+
+
