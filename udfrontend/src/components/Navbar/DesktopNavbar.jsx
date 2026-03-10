@@ -2,107 +2,182 @@ import { IoSearch } from "react-icons/io5";
 import { AiFillHome } from "react-icons/ai";
 import { FaUserFriends } from "react-icons/fa";
 import { MdWork } from "react-icons/md";
-import { IoChatbubbleEllipses } from "react-icons/io5";
-import { IoNotifications } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { IoChatbubbleEllipses, IoNotifications } from "react-icons/io5";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const DesktopNavbar = () => {
-    return (
 
-        <div className="hidden md:flex fixed top-0 left-0 w-full 
-    bg-white border-b border-gray-300 
-    justify-center z-[9999]">
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-            <div className="flex items-center justify-between w-[1100px] px-4 py-2">
+  // SIGN OUT FUNCTION
+  const handleSignout = async () => {
 
-                {/* Left Section */}
-                <div className="flex items-center gap-3">
+  try {
 
-                    {/* Logo */}
-                    <img
-                        src="/logo.png"
-                        alt="logo"
-                        className="h-10"
-                    />
+    const access = localStorage.getItem("access");
+    const refresh = localStorage.getItem("refresh");
 
-                    {/* Search */}
-                    <div className="flex items-center 
-          bg-gray-100 px-3 py-1 rounded-md">
+    const response = await fetch("http://127.0.0.1:8000/api/logout/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${access}`
+      },
+      body: JSON.stringify({
+        refresh: refresh
+      })
+    });
 
-                        <IoSearch className="text-gray-600" />
+    const data = await response.json();
 
-                        <input
-                            type="search"
-                            placeholder="Search"
-                            className="bg-transparent px-2 
-              outline-none w-60"
-                        />
+    if (response.ok) {
 
-                    </div>
+      // clear tokens
+      localStorage.removeItem("access");
+      localStorage.removeItem("refresh");
 
-                </div>
+      // redirect to login
+      navigate("/login");
 
+    } else {
+      console.log(data.error);
+    }
 
-                {/* Right Section */}
-                <div className="flex items-center gap-8 text-gray-600">
-                    <Link to="/">
-                        <div className="flex flex-col items-center cursor-pointer hover:text-black">
-                            <AiFillHome size={22} />
-                            <p className="text-xs">Home</p>
-                        </div>
-                    </Link>
+  } catch (error) {
+    console.error("Logout error:", error);
+  }
 
-                    <Link to="/network">
-                        <div className="flex flex-col items-center cursor-pointer hover:text-black">
-                            <FaUserFriends size={22} />
-                            <p className="text-xs">Network</p>
-                        </div>
-                    </Link>
+};
 
-                    <Link to="/jobs">
-                        <div className="flex flex-col items-center cursor-pointer hover:text-black">
-                            <MdWork size={22} />
-                            <p className="text-xs">Jobs</p>
-                        </div>
-                    </Link>
+  return (
 
+    <div className="hidden md:flex fixed top-0 left-0 w-full 
+    bg-white border-b border-gray-300 justify-center z-[9999]">
 
-                    <Link to="/message">
-                        <div className="flex flex-col items-center cursor-pointer hover:text-black">
-                            <IoChatbubbleEllipses size={22} />
-                            <p className="text-xs">Messaging</p>
-                        </div>
-                    </Link>
+      <div className="flex items-center justify-between w-[1100px] px-4 py-2">
 
+        {/* LEFT SECTION */}
+        <div className="flex items-center gap-3">
 
-                    <Link to="/notification">
-                        <div className="flex flex-col items-center cursor-pointer hover:text-black">
-                            <IoNotifications size={22} />
-                            <p className="text-xs">Notifications</p>
-                        </div>
-                    </Link>
+          {/* Logo */}
+          <img
+            src="/logo.png"
+            alt="logo"
+            className="h-10"
+          />
 
+          {/* Search */}
+          <div className="flex items-center bg-gray-100 px-3 py-1 rounded-md">
 
-                    {/* Profile */}
-                    <div className="flex flex-col items-center cursor-pointer">
+            <IoSearch className="text-gray-600" />
 
-                        <img
-                            src="/logo.png"
-                            alt="profile"
-                            className="w-6 h-6 rounded-full"
-                        />
+            <input
+              type="search"
+              placeholder="Search"
+              className="bg-transparent px-2 outline-none w-60"
+            />
 
-                        <p className="text-xs">Me</p>
-
-                    </div>
-
-                </div>
-
-            </div>
+          </div>
 
         </div>
 
-    );
+
+        {/* RIGHT SECTION */}
+        <div className="flex items-center gap-8 text-gray-600">
+
+          {/* Home */}
+          <Link to="/">
+            <div className="flex flex-col items-center cursor-pointer hover:text-black">
+              <AiFillHome size={22} />
+              <p className="text-xs">Home</p>
+            </div>
+          </Link>
+
+          {/* Network */}
+          <Link to="/network">
+            <div className="flex flex-col items-center cursor-pointer hover:text-black">
+              <FaUserFriends size={22} />
+              <p className="text-xs">Network</p>
+            </div>
+          </Link>
+
+          {/* Jobs */}
+          <Link to="/jobs">
+            <div className="flex flex-col items-center cursor-pointer hover:text-black">
+              <MdWork size={22} />
+              <p className="text-xs">Jobs</p>
+            </div>
+          </Link>
+
+          {/* Messaging */}
+          <Link to="/message">
+            <div className="flex flex-col items-center cursor-pointer hover:text-black">
+              <IoChatbubbleEllipses size={22} />
+              <p className="text-xs">Messaging</p>
+            </div>
+          </Link>
+
+          {/* Notifications */}
+          <Link to="/notification">
+            <div className="flex flex-col items-center cursor-pointer hover:text-black">
+              <IoNotifications size={22} />
+              <p className="text-xs">Notifications</p>
+            </div>
+          </Link>
+
+
+          {/* PROFILE DROPDOWN */}
+          <div className="relative">
+
+            <div
+              onClick={() => setOpen(!open)}
+              className="flex flex-col items-center cursor-pointer"
+            >
+
+              <img
+                src="/logo.png"
+                alt="profile"
+                className="w-7 h-7 rounded-full"
+              />
+
+              <p className="text-xs">Me</p>
+
+            </div>
+
+
+            {/* DROPDOWN MENU */}
+            {open && (
+
+              <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg">
+
+                <Link to="/profile">
+                  <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Profile
+                  </div>
+                </Link>
+
+                <div
+                  onClick={handleSignout}
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"
+                >
+                  Sign Out
+                </div>
+
+              </div>
+
+            )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  );
 };
 
 export default DesktopNavbar;
