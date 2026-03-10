@@ -26,11 +26,22 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author_name = serializers.ReadOnlyField(source='author.username')
+    # These fields are "read-only" - the frontend doesn't send them, 
+    # but the API includes them in the response.
+    author_name = serializers.ReadOnlyField(source='author.fullname')
+    author_username = serializers.ReadOnlyField(source='author.username')
+    author_pic = serializers.ReadOnlyField(source='author.profile_pic.url', allow_null=True)
 
     class Meta:
         model = Post
-        fields = ['id', 'author', 'author_name', 'title', 'content', 'image', 'created_at']
+        fields = [
+            'id', 'author_username', 'author_name', 'author_pic', 
+            'title', 'content', 'image', 'created_at'
+        ]
+
+
+
+
 
 # 1. SIGNUP SERIALIZER
 class RegisterSerializer(serializers.ModelSerializer):
