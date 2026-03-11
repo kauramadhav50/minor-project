@@ -1,9 +1,7 @@
 import { AiFillHome } from "react-icons/ai";
 import { FaUserFriends } from "react-icons/fa";
 import { MdWork } from "react-icons/md";
-import { IoChatbubbleEllipses } from "react-icons/io5";
-import { IoNotifications } from "react-icons/io5";
-import { IoClose } from "react-icons/io5";
+import { IoChatbubbleEllipses, IoNotifications, IoClose} from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const MobileSidebar = ({ open, setOpen }) => {
