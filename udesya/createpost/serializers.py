@@ -30,10 +30,11 @@ class PostSerializer(serializers.ModelSerializer):
 
     author = serializers.CharField(source="author.username", read_only=True)
     profile_pic = serializers.SerializerMethodField()
+    author_fullname = serializers.CharField(source="author.fullname", read_only=True)
 
     class Meta:
         model = Post
-        fields = ["id", "author", "content", "image", "created_at", "profile_pic"]
+        fields = ["id", "author","author_fullname", "content", "image", "created_at", "profile_pic"]
 
     def get_profile_pic(self, obj):
         if obj.author.profile_pic:
