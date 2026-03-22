@@ -154,6 +154,12 @@ const DesktopNavbar = () => {
                   </div>
                 </Link>
 
+                 <Link to="/add-post">
+                  <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    Create Post
+                  </div>
+                </Link>
+
                 <div
                   onClick={handleSignout}
                   className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-red-500"

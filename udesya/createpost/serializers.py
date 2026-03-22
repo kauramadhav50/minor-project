@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Post, User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -27,17 +28,24 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-
+    # Get username and fullname directly from the related User model
     author = serializers.CharField(source="author.username", read_only=True)
-    profile_pic = serializers.SerializerMethodField()
     author_fullname = serializers.CharField(source="author.fullname", read_only=True)
+    
+    # We use SerializerMethodField for the profile pic to handle the full URL safely
+    profile_pic = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ["id", "author","author_fullname", "content", "image", "created_at", "profile_pic"]
+        fields = ["id", "author", "author_fullname", "content", "image", "created_at", "profile_pic"]
 
     def get_profile_pic(self, obj):
+        request = self.context.get('request')
         if obj.author.profile_pic:
+            url = obj.author.profile_pic.url
+            # build_absolute_uri ensures http://127.0.0.1:8000 is added
+            if request is not None:
+                return request.build_absolute_uri(url)
             return obj.author.profile_pic.url
         return None
 
