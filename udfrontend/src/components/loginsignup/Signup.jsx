@@ -47,7 +47,12 @@ function Signup() {
       data.append("bio", formData.bio);
       data.append("pic", formData.pic);
 
-      const response = await fetch("http://127.0.0.1:8000/api/signup/", {
+      // const response = await fetch("http://127.0.0.1:8000/api/signup/", {
+      //   method: "POST",
+      //   body: data
+      // });
+
+      const response = await fetch("https://drshfwkr-8000.inc1.devtunnels.ms/api/signup/", {
         method: "POST",
         body: data
       });
@@ -56,12 +61,10 @@ function Signup() {
 
       if (response.ok) {
 
-        // store login token or user data
         localStorage.setItem("user", JSON.stringify(result));
 
         alert("Signup Successful 🎉");
 
-        // redirect to homepage
         navigate("/");
 
       } else {
@@ -75,14 +78,14 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-200 to-purple-200 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-200 to-purple-200 px-4 sm:px-6 lg:px-8">
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md space-y-4"
+        className="bg-white w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl p-6 sm:p-8 rounded-2xl shadow-xl space-y-4"
       >
 
-        <h2 className="text-3xl font-bold text-center text-gray-800">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800">
           Create Account
         </h2>
 
@@ -96,7 +99,7 @@ function Signup() {
           placeholder="Username"
           value={formData.username}
           onChange={handleChange}
-          className="w-full p-3 border rounded-lg"
+          className="w-full p-2.5 sm:p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
           required
         />
 
@@ -106,7 +109,7 @@ function Signup() {
           placeholder="Full Name"
           value={formData.fullname}
           onChange={handleChange}
-          className="w-full p-3 border rounded-lg"
+          className="w-full p-2.5 sm:p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
           required
         />
 
@@ -116,7 +119,7 @@ function Signup() {
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full p-3 border rounded-lg"
+          className="w-full p-2.5 sm:p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
           required
         />
 
@@ -126,7 +129,7 @@ function Signup() {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
-          className="w-full p-3 border rounded-lg"
+          className="w-full p-2.5 sm:p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
           required
         />
 
@@ -136,7 +139,7 @@ function Signup() {
           placeholder="Confirm Password"
           value={formData.confirmPassword}
           onChange={handleChange}
-          className="w-full p-3 border rounded-lg"
+          className="w-full p-2.5 sm:p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
           required
         />
 
@@ -145,25 +148,27 @@ function Signup() {
           placeholder="Write your bio..."
           value={formData.bio}
           onChange={handleChange}
-          className="w-full p-3 border rounded-lg"
+          className="w-full p-2.5 sm:p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none"
+          rows="3"
         />
 
         <input
           type="file"
           name="pic"
           onChange={handleChange}
+          className="w-full text-sm file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-purple-600 file:text-white hover:file:bg-purple-700"
         />
 
         <button
           type="submit"
-          className="w-full bg-purple-600 text-white p-3 rounded-lg hover:bg-purple-700"
+          className="w-full bg-purple-600 text-white py-2.5 sm:py-3 rounded-lg hover:bg-purple-700 transition"
         >
           Sign Up
         </button>
 
         <p className="text-center text-sm text-gray-600">
           Already have an account?
-          <Link to="/login" className="text-purple-600 ml-1">
+          <Link to="/login" className="text-purple-600 ml-1 font-medium">
             Login
           </Link>
         </p>

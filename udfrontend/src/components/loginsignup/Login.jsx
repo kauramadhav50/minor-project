@@ -10,7 +10,18 @@ function Login() {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/login/", {
+      // const response = await fetch("http://127.0.0.1:8000/api/login/", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify({
+      //     username: username,
+      //     password: password
+      //   })
+      // });
+      
+      const response = await fetch("https://drshfwkr-8000.inc1.devtunnels.ms/api/login/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -20,28 +31,22 @@ function Login() {
           password: password
         })
       });
-      
 
       const data = await response.json();
 
       if (response.ok) {
-        // --- CRITICAL FIX START ---
-        // Store the tokens individually so the Navbar can access them
         localStorage.setItem("access", data.access);
         localStorage.setItem("refresh", data.refresh);
         
-        // Store the rest of the user profile info separately
         localStorage.setItem("user_data", JSON.stringify({
           username: data.username,
           fullname: data.fullname,
           bio: data.bio,
           profile_pic: data.profile_pic
         }));
-        // --- CRITICAL FIX END ---
 
         navigate("/");
       } else {
-        // SimpleJWT usually returns "detail" on failure, not "message"
         alert(data.detail || "Login Failed ❌");
       }
 
@@ -52,12 +57,15 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-200 to-purple-200">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-200 to-purple-200 px-4 sm:px-6 lg:px-8">
+
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm"
+        className="bg-white w-full max-w-sm sm:max-w-md md:max-w-lg p-6 sm:p-8 rounded-2xl shadow-2xl"
       >
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Login</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-6">
+          Login
+        </h2>
 
         <input
           type="text"
@@ -65,7 +73,7 @@ function Login() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          className="w-full p-3 border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full p-2.5 sm:p-3 border rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
 
         <input
@@ -74,12 +82,12 @@ function Login() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          className="w-full p-3 border rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full p-2.5 sm:p-3 border rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
 
         <button
           type="submit"
-          className="w-full bg-indigo-600 text-white p-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
+          className="w-full bg-indigo-600 text-white py-2.5 sm:py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
         >
           Login
         </button>
@@ -91,6 +99,7 @@ function Login() {
           </Link>
         </p>
       </form>
+
     </div>
   );
 }

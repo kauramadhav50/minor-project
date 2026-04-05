@@ -19,7 +19,18 @@ const DesktopNavbar = () => {
 
       // Attempt to tell the backend to logout
       // We use await but we don't 'trap' the user if this fails
-      await fetch("http://127.0.0.1:8000/api/logout/", {
+      // await fetch("http://127.0.0.1:8000/api/logout/", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     "Authorization": `Bearer ${access}`
+      //   },
+      //   body: JSON.stringify({
+      //     refresh: refresh
+      //   })
+      // });
+
+      await fetch("https://drshfwkr-8000.inc1.devtunnels.ms/api/logout/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
