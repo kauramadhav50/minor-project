@@ -1,6 +1,6 @@
 from rest_framework import generics, permissions, status
 from .models import Post, User
-from .serializers import PostSerializer, RegisterSerializer, MyTokenObtainPairSerializer
+from .serializers import PostSerializer, RegisterSerializer, MyTokenObtainPairSerializer, UserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.views import APIView
 from .permissions import IsAuthorOrReadOnly
@@ -79,3 +79,22 @@ class LogoutView(APIView):
             return Response({"error": "Refresh token is required"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+
+
+
+
+
+class UserProfileView(generics.RetrieveUpdateAPIView):
+    """
+    GET: Returns the profile of the logged-in user.
+    PUT/PATCH: Updates the profile of the logged-in user.
+    """
+    serializer_class = UserSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        # Instead of looking for an ID in the URL (like /profile/1/),
+        # this returns the user associated with the JWT token.
+        return self.request.user

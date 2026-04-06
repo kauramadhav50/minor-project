@@ -8,15 +8,13 @@ const Postview = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // const API_URL = "http://127.0.0.1:8000/api/posts/";
+  // ✅ Actual Local API Links
+  const API_URL = "http://127.0.0.1:8000/api/posts/";
+  const BASE_URL = "http://127.0.0.1:8000";
 
-  //  useEffect(() => {
-  //   fetchPosts();
-  //  },
-  //  []);
-
-  const API_URL = "https://drshfwkr-8000.inc1.devtunnels.ms/api/posts/";
-  const BASE_URL = "https://drshfwkr-8000.inc1.devtunnels.ms";
+  // ❌ Dev Tunnel Links (Commented out)
+  // const API_URL = "https://drshfwkr-8000.inc1.devtunnels.ms/api/posts/";
+  // const BASE_URL = "https://drshfwkr-8000.inc1.devtunnels.ms";
 
   useEffect(() => {
     fetchPosts();
@@ -26,7 +24,7 @@ const Postview = () => {
     try {
       const response = await fetch(API_URL);
       const data = await response.json();
-      console.log("API Data:", data);
+      console.log("API Data fetched:", data);
       setPosts(data.results || data);
     } catch (error) {
       console.error("Error fetching posts:", error);
@@ -35,36 +33,31 @@ const Postview = () => {
     }
   };
 
-  // 🔥 Helper function to handle image URLs correctly
-  // const getFullImageUrl = (imagePath) => {
-  //   if (!imagePath) return null;
-  //   if (imagePath.startsWith("http")) {
-  //     return imagePath;
-  //   }
-  //   return `http://127.0.0.1:8000${imagePath}`;
-  // };
-
+  /**
+   * Helper function to handle image URLs correctly
+   * Ensures images load from the local media folder
+   */
   const getFullImageUrl = (imagePath) => {
     if (!imagePath) return null;
 
     imagePath = imagePath.trim();
 
-    // ✅ Fix localhost URL from backend
-    if (imagePath.includes("localhost:8000")) {
-      return imagePath.replace("http://localhost:8000", BASE_URL);
-    }
+    // If backend mistakenly sends localhost while you are testing different origins
+    // if (imagePath.includes("localhost:8000")) {
+    //   return imagePath.replace("http://localhost:8000", BASE_URL);
+    // }
 
-    // Already correct full URL
+    // Case 1: Already a full URL (starts with http)
     if (imagePath.startsWith("http")) {
       return imagePath;
     }
 
-    // Relative path (/media/...)
+    // Case 2: Relative path starting with /media/
     if (imagePath.startsWith("/media")) {
       return `${BASE_URL}${imagePath}`;
     }
 
-    // Relative path (media/...)
+    // Case 3: Relative path starting with media/ (no slash)
     if (imagePath.startsWith("media")) {
       return `${BASE_URL}/${imagePath}`;
     }
@@ -105,14 +98,14 @@ const Postview = () => {
                 <p className="font-semibold text-sm hover:underline hover:text-blue-600 cursor-pointer">
                   {post.author_fullname || post.author}
                 </p>
-                <p className="text-xs text-gray-500">Udesya Member</p>
+                <p className="text-xs text-gray-500 font-medium">Udesya Member</p>
                 <p className="text-xs text-gray-500 flex items-center gap-1">
                   {formatDate(post.created_at)} • <MdPublic size={12} />
                 </p>
               </div>
             </div>
 
-            {/* Post Text */}
+            {/* Post Content/Text */}
             {post.content && (
               <div className="px-3 pb-3">
                 <p className="text-sm text-gray-800 leading-relaxed">
@@ -121,19 +114,19 @@ const Postview = () => {
               </div>
             )}
 
-            {/* Image */}
+            {/* Post Media/Image */}
             {imageUrl && (
               <div className="w-full bg-gray-100 border-y">
                 <img
                   src={imageUrl}
                   alt="post content"
-                  className="w-full h-auto max-h-[400px] object-cover sm:object-contain"
-                  onError={(e) => { e.target.src = "/logo.png"; }}
+                  className="w-full h-auto max-h-[450px] object-cover sm:object-contain"
+                  onError={(e) => { e.target.style.display = 'none'; }} 
                 />
               </div>
             )}
 
-            {/* Reaction Count */}
+            {/* Reaction Summary */}
             <div className="flex justify-between px-3 py-2 text-[11px] text-gray-500 border-b mx-2">
               <div className="flex items-center gap-1">
                 <span className="bg-blue-100 p-0.5 rounded-full">👍</span>
@@ -142,7 +135,7 @@ const Postview = () => {
               <p>0 Comments • 0 Reposts</p>
             </div>
 
-            {/* Action Buttons */}
+            {/* Action Buttons - LinkedIn Style */}
             <div className="flex justify-around px-1 py-1 text-sm font-semibold text-gray-600">
               <button className="flex-1 flex justify-center items-center gap-2 py-3 hover:bg-gray-100 rounded-md transition">
                 <BiLike size={22} />

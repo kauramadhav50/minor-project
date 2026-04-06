@@ -12,7 +12,7 @@ function Signup() {
     password: "",
     confirmPassword: "",
     bio: "",
-    pic: null
+    profile_pic: null // Changed 'pic' to 'profile_pic' to match Django
   });
 
   const [error, setError] = useState("");
@@ -20,8 +20,8 @@ function Signup() {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
-    if (name === "pic") {
-      setFormData({ ...formData, pic: files[0] });
+    if (name === "profile_pic") { // Changed 'pic' to 'profile_pic'
+      setFormData({ ...formData, profile_pic: files[0] });
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -45,22 +45,27 @@ function Signup() {
       data.append("email", formData.email);
       data.append("password", formData.password);
       data.append("bio", formData.bio);
-      data.append("pic", formData.pic);
+      
+      // Fixed: Append as "profile_pic" to match your Django Serializer/Model
+      if (formData.profile_pic) {
+        data.append("profile_pic", formData.profile_pic);
+      }
 
-      // const response = await fetch("http://127.0.0.1:8000/api/signup/", {
-      //   method: "POST",
-      //   body: data
-      // });
-
-      const response = await fetch("https://drshfwkr-8000.inc1.devtunnels.ms/api/signup/", {
+      const response = await fetch("http://127.0.0.1:8000/api/signup/", {
         method: "POST",
         body: data
       });
+
+      // const response = await fetch("https://drshfwkr-8000.inc1.devtunnels.ms/api/signup/", {
+      //   method: "POST",
+      //   body: data
+      // });
 
       const result = await response.json();
 
       if (response.ok) {
 
+        // store user info (optional)
         localStorage.setItem("user", JSON.stringify(result));
 
         alert("Signup Successful 🎉");
@@ -154,7 +159,7 @@ function Signup() {
 
         <input
           type="file"
-          name="pic"
+          name="profile_pic" // Changed name from 'pic' to 'profile_pic'
           onChange={handleChange}
           className="w-full text-sm file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-purple-600 file:text-white hover:file:bg-purple-700"
         />

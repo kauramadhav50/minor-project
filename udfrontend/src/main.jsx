@@ -19,6 +19,7 @@ import Message from "./components/Message/Message.jsx";
 import Login from "./components/loginsignup/Login.jsx";
 import Signup from "./components/loginsignup/Signup.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import Profile from "./components/Profile.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -55,6 +56,13 @@ const router = createBrowserRouter(
             <Jobs />
           </ProtectedRoute>
         } />
+
+        <Route path="profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        } />
+
       </Route>
 
       {/* Separate Pages */}

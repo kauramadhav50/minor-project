@@ -84,4 +84,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data
 
 
-
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'fullname', 'email', 'bio', 'profile_pic', 'is_staff']
+        # We don't want users changing their username or staff status
+        read_only_fields = ['id', 'username', 'is_staff']
